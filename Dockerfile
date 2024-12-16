@@ -22,3 +22,5 @@ FROM peaceiris/mdbook:v0.4.40
 
 COPY --from=mdbook-asciidoc /bin/mdbook-asciidoc /bin/mdbook-asciidoc
 COPY --from=mdbook-variables /bin/mdbook-variables /bin/mdbook-variables
+
+COPY . .
