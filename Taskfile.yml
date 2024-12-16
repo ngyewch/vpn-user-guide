@@ -1,0 +1,41 @@
+version: 3
+
+tasks:
+  clean:
+    desc: Clean
+    cmds:
+      - rm -rf book
+
+  build:
+    desc: Build
+    deps: [ clean ]
+    cmds:
+      - task: build-zip
+
+  serve:
+    desc: Serve
+    cmds:
+      - mdbook serve
+
+  build-book:
+    cmds:
+      - mdbook build
+
+  build-pdf:
+    deps: [ build-book ]
+    cmds:
+      - mkdir -p book/pdf
+      - docker run --rm -u $(id -u):$(id -g) -v $(pwd)/book/asciidoc/:/documents/ -v $(pwd)/book/pdf/:/output/ asciidoctor/docker-asciidoctor asciidoctor-pdf -a allow-uri-read -D /output/ output.adoc
+      - BASENAME=$(basename $(pwd)) && cd book && cp pdf/output.pdf ${BASENAME}.pdf
+
+  build-zip:
+    deps: [ build-pdf ]
+    cmds:
+      - BASENAME=$(basename $(pwd)) && cd book && zip -q -r ${BASENAME}.zip .
+
+  build-via-docker:
+    cmds:
+      - docker run --rm -u $(id -u):$(id -g) -v $(pwd):/book -e vpn_connection_name=$vpn_connection_name -e vpn_server_name=$vpn_server_name $(docker build -q .) build
+      - mkdir -p book/pdf
+      - docker run --rm -u $(id -u):$(id -g) -v $(pwd)/book/asciidoc/:/documents/ -v $(pwd)/book/pdf/:/output/ asciidoctor/docker-asciidoctor asciidoctor-pdf -a allow-uri-read -D /output/ output.adoc
+      - BASENAME=$(basename $(pwd)) && cd book && cp pdf/output.pdf ${BASENAME}.pdf && zip -q -r ${BASENAME}.zip .

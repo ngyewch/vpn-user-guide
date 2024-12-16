@@ -1,0 +1,23 @@
+[book]
+language = "en"
+multilingual = false
+src = "src"
+title = "VPN User Guide"
+
+[output.html]
+additional-css = ["./mdbook-admonish.css"]
+
+[output.asciidoc]
+optional = true
+min-heading-level = 2
+
+[preprocessor]
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
+
+[preprocessor.variables]
+use_env = true
+
+[preprocessor.variables.variables]

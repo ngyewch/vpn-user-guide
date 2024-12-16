@@ -1,0 +1,5 @@
+[tools]
+'ubi:ngyewch/devbox-helper' = '0.1.0'
+'ubi:ngyewch/mdbook-asciidoc' = '0.6.0'
+'ubi:ngyewch/mise-helper' = '0.7.1'
+'ubi:pwaller/docker-show-context' = '1.1.1'
